@@ -3,17 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <title>Latest Releases</title>
+    <style>
+        *{
+            font-family: 'Open Sans', sans-serif;
+        }
+        .movie-list{
+            display : flex
+        }
+
+        .movie-poster-container {
+            position: relative; 
+            width: 17vw; 
+            height: auto;
+            margin-right: 20px;
+        }
+        .movie-poster {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+        .description-box {
+            position: absolute; 
+            top: 50%; 
+            left: 60%; 
+            background-color: rgba(0, 0, 0, 0.8); 
+            color: white;
+            padding: 10px;
+            width: 500px; 
+            visibility: hidden; 
+            opacity: 0; 
+            transition: visibility 0s, opacity 0.5s ease; 
+            z-index:999
+        }
+        .movie-poster-container:hover .description-box {
+            visibility: visible; 
+            opacity: 1; 
+        }
+    </style>
 </head>
 <body>
     <h1>Latest Releases</h1>
-    <ul>
+    <ul class="movie-list">
         {% for movie in latest_releases %}
             <li>
-                <h2>{{ movie.title }}</h2>
-                <p>{{ movie.description }}</p>
+                <div class="movie-poster-container">
+                    <img class="movie-poster" src="{{ MEDIA_URL }}{{ movie.poster.url }}" alt="{{ movie.title }} Poster">
+                    <div class="description-box">
+                        <h2>{{ movie.title }}</h2>
+                        <p>{{ movie.description }}</p>
+                    </div>
+                </div>
                 <p>Release Date: {{ movie.release_date }}</p>
-                <img src="{{ movie.poster.url }}" alt="{{ movie.title }} Poster">
             </li>
         {% endfor %}
     </ul>
