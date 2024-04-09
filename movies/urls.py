@@ -1,6 +1,9 @@
 from django.urls import path
-from .views import latest_releases
+from .views import *
 
 urlpatterns = [
-    path('latest/', latest_releases, name='latest_releases'),
+    path('', home, name='home'),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('signup/', signup_view, name='signup'),
 ]

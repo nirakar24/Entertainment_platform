@@ -10,3 +10,11 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
+
+class Trailer(models.Model):
+    title = models.CharField(max_length=100)
+    poster = models.ImageField(upload_to='trailers/posters/')
+    video_url = models.URLField()
+
+    def __str__(self):
+        return self.title

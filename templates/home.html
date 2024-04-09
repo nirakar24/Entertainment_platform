@@ -1,0 +1,88 @@
+{% include 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest Releases</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+<div class="slideshow-container">
+    <!-- Trailer slides -->
+    {% for trailer in trending_trailers %}
+        <div class="trailer-slide fade">
+            <iframe width="100%" height="100%" src="{{ trailer.video_url }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+    {% endfor %}
+
+    <!-- Previous and next buttons -->
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+
+<h1>Latest Releases</h1>
+<ul class="movie-list">
+    {% for movie in latest_releases %}
+        <li>
+            <div class="movie-poster-container">
+                <img class="movie-poster" src="{{ MEDIA_URL }}{{ movie.poster.url }}" alt="{{ movie.title }} Poster">
+                <div class="description-box">
+                    <h2>{{ movie.title }}</h2>
+                    <p>{{ movie.description }}</p>
+                </div>
+            </div>
+            <p>Release Date: {{ movie.release_date }}</p>
+        </li>
+    {% endfor %}
+</ul>
+
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("trailer-slide");
+        if (n > slides.length) { slideIndex = 1; }
+        if (n < 1) { slideIndex = slides.length; }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex - 1].style.display = "block";
+    }
+
+// Dynamically add "right" class to description box if poster is near the right edge of the screen
+        document.addEventListener("DOMContentLoaded", function() {
+            var posters = document.querySelectorAll('.movie-poster-container');
+            posters.forEach(function(poster) {
+                poster.addEventListener('mouseenter', function() {
+                    var posterRect = poster.getBoundingClientRect();
+                    var screenWidth = window.innerWidth;
+                    var distanceToRightEdge = screenWidth - posterRect.right;
+                    var descriptionBox = poster.querySelector('.description-box');
+                    if (distanceToRightEdge < 520) { 
+                        descriptionBox.classList.add('right');
+                    } else {
+                        descriptionBox.classList.remove('right');
+                    }
+                });
+            });
+        });
+
+</script>
+
+</body>
+</html>
