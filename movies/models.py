@@ -7,6 +7,7 @@ class Movie(models.Model):
     genre = models.CharField(max_length=100)
     keywords = models.CharField(max_length=255)
     poster = models.ImageField(upload_to='movie_posters/')  
+    background_poster = models.ImageField(upload_to='background_posters/', null=True, blank=True)
 
     def __str__(self):
         return self.title

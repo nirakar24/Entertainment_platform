@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
+from datetime import *
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout
 from .models import Trailer, Movie
 
 def home(request):
-    trending_trailers = Trailer.objects.all()[:5]  
-    latest_releases = Movie.objects.order_by('-release_date')[:10] 
-    return render(request, 'home.html', {'trending_trailers': trending_trailers, 'latest_releases': latest_releases})
+    latest_releases = Movie.objects.order_by('-release_date')[:10]
+    today = datetime.now().date()
+    last_month = today - timedelta(days=30)
+    spotlight_movies = Movie.objects.filter(release_date__gte=last_month) 
+    return render(request, 'home.html', {'latest_releases': latest_releases, 'spotlight_movies': spotlight_movies})
 
 def login_view(request):
     if request.method == 'POST':

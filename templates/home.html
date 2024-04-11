@@ -10,20 +10,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/spotlight.css' %}">
 </head>
 <body>
-<div class="slideshow-container">
-    <!-- Trailer slides -->
-    {% for trailer in trending_trailers %}
-        <div class="trailer-slide fade">
-            <iframe width="100%" height="100%" src="{{ trailer.video_url }}" frameborder="0" allowfullscreen></iframe>
+    <div class="spotlight-container">
+        <div class="spotlight-movies">
+            {% for movie in spotlight_movies %}
+                <div class="movie-card">
+                    <div class="background-poster">
+                        <img src="{{ movie.background_poster.url }}" alt="{{ movie.title }} Background Poster">
+                        <div class="backround-overlay"></div>
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <h2 class="spot-title">{{ movie.title }}</h2>
+                            <div class="overlay-desc">
+                                <p>{{ movie.description }}</p>
+                            </div>
+                            <a href="{% url 'home'%}" class="watch-now-button">Watch Now</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-
-    <!-- Previous and next buttons -->
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-</div>
+    </div>
 
 <h1>Latest Releases</h1>
 <ul class="movie-list">
@@ -36,32 +46,27 @@
                     <p>{{ movie.description }}</p>
                 </div>
             </div>
-            <p>Release Date: {{ movie.release_date }}</p>
+            <!-- <p>Release Date: {{ movie.release_date }}</p> -->
         </li>
     {% endfor %}
 </ul>
 
 <script>
-    var slideIndex = 1;
-    showSlides(slideIndex);
+    var slideIndex = 0; // Initialize slide index to 0
+    showSlides(); // Call the showSlides function to start slideshow
 
-    function plusSlides(n) {
-        showSlides(slideIndex += n);
-    }
-
-    function currentSlide(n) {
-        showSlides(slideIndex = n);
-    }
-
-    function showSlides(n) {
+    function showSlides() {
         var i;
-        var slides = document.getElementsByClassName("trailer-slide");
-        if (n > slides.length) { slideIndex = 1; }
-        if (n < 1) { slideIndex = slides.length; }
+        var slides = document.getElementsByClassName("movie-card"); // Get all movie cards
         for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
+            slides[i].style.display = "none"; // Hide all movie cards
         }
-        slides[slideIndex - 1].style.display = "block";
+        slideIndex++; // Increment slide index
+        if (slideIndex > slides.length) { 
+            slideIndex = 1; // Reset slide index if it exceeds total number of slides
+        }
+        slides[slideIndex - 1].style.display = "block"; // Display the current slide
+        setTimeout(showSlides, 5000); // Change slide every 5 seconds
     }
 
 // Dynamically add "right" class to description box if poster is near the right edge of the screen
