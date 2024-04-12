@@ -1,11 +1,16 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from datetime import *
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout
 from .models import Trailer, Movie
 
+def movie_details(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    trailers = [movie.trailer] if movie.trailer else []  
+    return render(request, 'movie_details.html', {'movie': movie, 'trailers': trailers})
+
 def home(request):
-    latest_releases = Movie.objects.order_by('-release_date')[:10]
+    latest_releases = Movie.objects.order_by('-release_date')[:5]
     today = datetime.now().date()
     last_month = today - timedelta(days=30)
     spotlight_movies = Movie.objects.filter(release_date__gte=last_month) 

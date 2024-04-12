@@ -8,6 +8,8 @@ class Movie(models.Model):
     keywords = models.CharField(max_length=255)
     poster = models.ImageField(upload_to='movie_posters/')  
     background_poster = models.ImageField(upload_to='background_posters/', null=True, blank=True)
+    trailer = models.ForeignKey('Trailer', on_delete=models.SET_NULL, null=True, blank=True)
+    streaming_url = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return self.title

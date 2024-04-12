@@ -56,15 +56,16 @@ body {
 .movie-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
     padding: 0;
     list-style: none;
+    width: 90vw;
 }
 
 .movie-poster-container {
     position: relative;
-    width: 17vw;
-    height: 25vw; /* Fixed height for uniform poster size */
+    width: 15vw;
+    height: 22vw; /* Fixed height for uniform poster size */
     margin: 0 20px 20px 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect on posters */
 }
@@ -77,17 +78,26 @@ body {
 
 .description-box {
     position: absolute;
+    background-color: #1f1f1fce;
     top: 50%;
     left: 60%;
-    background-color: rgba(39, 68, 165, 0.932);/* Transparent white background */
     color: #ffffff; /* Black text color */
-    padding: 10px;
     width: 30vw; /* Adjust width dynamically */
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s, opacity 1s ease;
     z-index: 999;
-    border-radius: 10px; /* Rounded corners */
+    padding: 2vw;
+    border-radius: 1vw;
+    text-align: justify;
+    line-height: 1.2vw; 
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+}
+
+.description-box h2{
+    font-size: 2vw;
 }
 
 .movie-poster-container:hover .description-box {

@@ -38,16 +38,17 @@
 <h1>Latest Releases</h1>
 <ul class="movie-list">
     {% for movie in latest_releases %}
-        <li>
-            <div class="movie-poster-container">
-                <img class="movie-poster" src="{{ MEDIA_URL }}{{ movie.poster.url }}" alt="{{ movie.title }} Poster">
-                <div class="description-box">
-                    <h2>{{ movie.title }}</h2>
-                    <p>{{ movie.description }}</p>
+        <a href="{% url 'movie_details' movie.id %}">
+            <li>
+                <div class="movie-poster-container">
+                    <img class="movie-poster" src="{{ MEDIA_URL }}{{ movie.poster.url }}" alt="{{ movie.title }} Poster">
+                    <div class="description-box">
+                        <h2>{{ movie.title }}</h2>
+                        <p>{{ movie.description }}</p>
+                    </div>
                 </div>
-            </div>
-            <!-- <p>Release Date: {{ movie.release_date }}</p> -->
-        </li>
+            </li>
+        </a>
     {% endfor %}
 </ul>
 

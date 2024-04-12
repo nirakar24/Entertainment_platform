@@ -1,0 +1,33 @@
+{% include 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/details.css' %}">
+    <title>{{ movie.title }} Details</title>
+</head>
+<body>
+    <div class="movie-details">
+        <h1>{{ movie.title }}</h1>
+        <img src="{{ movie.background_poster.url }}" alt="{{ movie.title }} Poster">
+        <p>{{ movie.description }}</p>
+        <h2>Trailer</h2>
+        {% for trailer in trailers %}
+        <div class="trailer">
+            <h3>{{ trailer.title }}</h3>
+            <iframe width="560" height="315" src="{{ trailer.video_url }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+        {% endfor %}
+        {% if movie.streaming_url %}
+        <h2>Stream Now</h2>
+        <video controls>
+            <source src="{{ movie.streaming_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #0a0a2b; /* Dark blue background color */
+}
+.movie-details {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-top: 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+.trailer {
+    margin-bottom: 20px;
+}
+
+iframe {
+    width: 100%;
+    border: 0;
+}
