@@ -25,6 +25,7 @@
                 <button class="dropbtn">{{ user.username }}</button>
                 <div class="dropdown-content">
                     <a href="{% url 'logout' %}">Logout</a>
+                    <a href="{% url 'profile' %}">Profile</a>
                 </div>
             </div>
         {% else %}
@@ -33,6 +34,12 @@
             <a href="{% url 'signup' %}">Signup</a>
         {% endif %}
     </div>
+    {% if messages %}
+    <script>
+        alert("Added to your wishlist");
+    </script>
+    {% endif %}
+
 </header>
 
 <main>

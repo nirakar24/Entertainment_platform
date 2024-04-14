@@ -1,8 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from datetime import *
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
-from .models import Trailer, Movie
+from .models import Trailer, Movie, UserProfile
+
+@login_required
+def add_to_wishlist(request, movie_id):
+    movie = Movie.objects.get(pk=movie_id)
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+    user_profile.wishlist.add(movie)
+    messages.success(request, f'{movie.title} has been added to your wishlist.', extra_tags='alert')
+    return redirect('movie_details', movie_id=movie_id)
+
+@login_required
+def profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    wishlist = user_profile.wishlist.all()
+    return render(request, 'profile.html', {'wishlist': wishlist})
 
 def movie_details(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)

@@ -10,24 +10,59 @@
 </head>
 <body>
     <div class="movie-details">
-        <h1>{{ movie.title }}</h1>
-        <img src="{{ movie.background_poster.url }}" alt="{{ movie.title }} Poster">
-        <p>{{ movie.description }}</p>
-        <h2>Trailer</h2>
-        {% for trailer in trailers %}
-        <div class="trailer">
-            <h3>{{ trailer.title }}</h3>
-            <iframe width="560" height="315" src="{{ trailer.video_url }}" frameborder="0" allowfullscreen></iframe>
+        <div class="bg-poster">
+            <img src="{{ movie.background_poster.url }}" alt="{{ movie.title }} Poster">
+            <div class="overlay">
+                <div class="overlay-content">
+                    <h1>{{ movie.title }}</h1>
+                    <p>{{ movie.description }}</p>
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'add_to_wishlist' movie.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Add to Wishlist</button>
+                        </form>
+                    {% endif %}
+
+                </div>
+                
+            </div>
         </div>
-        {% endfor %}
+        <div class="trailer-section">
+            <!-- <h2>Trailer</h2> -->
+            {% for trailer in trailers %}
+            <div class="trailer">
+                <!-- <h3>{{ trailer.title }}</h3> -->
+                <iframe width="560" height="315" src="{{ trailer.video_url }}" frameborder="0" allowfullscreen></iframe>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="stream">
         {% if movie.streaming_url %}
         <h2>Stream Now</h2>
         <video controls>
             <source src="{{ movie.streaming_url }}" type="video/mp4">
             Your browser does not support the video tag.
           </video>
-          
         {% endif %}
     </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{% if message.tags == 'alert' %}{{ message }}{% else %}{{ message }}{% endif %}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
 </body>
+<script>
+    // Automatically dismiss alert messages after 2 seconds
+    setTimeout(function() {
+        var alert = document.querySelector('.alert');
+        if (alert) {
+            alert.style.display = 'none';
+        }
+    }, 2000);
+</script>
+
 </html>
